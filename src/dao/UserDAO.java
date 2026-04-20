@@ -1,10 +1,9 @@
 package dao;
 
-import model.User;
 import db.DBConnection;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import model.User;
 
 public class UserDAO {
 
@@ -16,8 +15,11 @@ public class UserDAO {
             PreparedStatement ps = con.prepareStatement("INSERT INTO users(username, email, password) VALUES (?,?,?)");
 
             ps.setString(1,user.getUsername());
+            System.out.println("got u");
             ps.setString(2,user.getEmail());
+            System.out.println("got u");
             ps.setString(3,user.getPassword());
+            System.out.println("got u");
 
             int rows = ps.executeUpdate();
 
