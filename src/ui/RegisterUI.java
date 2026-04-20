@@ -51,11 +51,11 @@ public class RegisterUI extends JFrame {
         registerBtn.addActionListener(e -> {
 
             String username = usernameField.getText();
-            System.out.println("got u");
+            
             String email = emailField.getText();
-            System.out.println("got u");
+            
             String password = new String(passwordField.getPassword());
-            System.out.println("got u");
+            
 
             User u = new User(username,email,password);
             System.out.println("passed");
