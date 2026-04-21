@@ -15,17 +15,16 @@ public class User {
 
     // Getter methods
     public String getUsername() {
-        System.out.println("got u");
         return username;
     }
 
     public String getEmail() {
-        System.out.println("got u");
+      
         return email;
     }
 
     public String getPassword() {
-        System.out.println("got u");
+        
         return password;
     }
 }

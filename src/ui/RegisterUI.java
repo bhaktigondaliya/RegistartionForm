@@ -1,4 +1,5 @@
 package ui;
+
 import dao.UserDAO;
 import javax.swing.*;
 import model.User;
@@ -7,11 +8,11 @@ public class RegisterUI extends JFrame {
 
     JTextField usernameField, emailField;
     JPasswordField passwordField;
-    JButton registerBtn;
+    JButton registerBtn, loginBtn;
 
     public RegisterUI() {
 
-        setTitle("Registration Form");
+        setTitle("User System");
         setSize(400, 300);
         setLayout(null);
 
@@ -42,38 +43,65 @@ public class RegisterUI extends JFrame {
         passwordField.setBounds(150, 130, 150, 30);
         add(passwordField);
 
-        // Button
+        // Register Button
         registerBtn = new JButton("Register");
-        registerBtn.setBounds(130, 180, 120, 40);
+        registerBtn.setBounds(180, 180, 120, 40);
         add(registerBtn);
 
-        // Button Click Logic
+        // Login Button
+        loginBtn = new JButton("Login");
+        loginBtn.setBounds(50, 180, 120, 40);
+        add(loginBtn);
+
+        // 🔹 Register Logic
         registerBtn.addActionListener(e -> {
 
             String username = usernameField.getText();
-            
             String email = emailField.getText();
-            
             String password = new String(passwordField.getPassword());
-            
-
-            User u = new User(username,email,password);
-            System.out.println("passed");
-
-            UserDAO dao = new UserDAO();
-            boolean result = dao.insertUser(u);
-
-
 
             if (username.isEmpty() || email.isEmpty() || password.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "All fields are required!");
-            } else {
+                return;
+            }
+
+            User u = new User(username, email, password);
+            UserDAO dao = new UserDAO();
+
+            boolean result = dao.insertUser(u);
+
+            if (result) {
                 JOptionPane.showMessageDialog(this, "Registration Successful!");
 
-                // Clear fields after success
                 usernameField.setText("");
                 emailField.setText("");
                 passwordField.setText("");
+
+            } else {
+                JOptionPane.showMessageDialog(this, "User already exists!");
+            }
+        });
+
+        // 🔹 Login Logic
+        loginBtn.addActionListener(e -> {
+
+            String email = emailField.getText();
+            String password = new String(passwordField.getPassword());
+
+            if (email.isEmpty() || password.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Enter email & password!");
+                return;
+            }
+
+            User u = new User(null, email, password);
+            UserDAO dao = new UserDAO();
+
+            boolean result = dao.loginUser(u);
+
+            if (result) {
+                JOptionPane.showMessageDialog(this, "Login Successful!");
+            } else {
+                JOptionPane.showMessageDialog(this, "Invalid credentials!");
             }
         });
 
@@ -81,7 +109,7 @@ public class RegisterUI extends JFrame {
         setVisible(true);
     }
 
-    /*public static void main(String[] args) {
+    public static void main(String[] args) {
         new RegisterUI();
-    }*/
+    }
 }
